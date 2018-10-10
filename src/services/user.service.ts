@@ -45,7 +45,7 @@ export class UserService {
     user.isSuperUser = false;
 
     const requestData: ThfHttpRequestData = {
-      url: 'http://localhost:8080/conference-api/api/v1/users/',
+      url: 'http://api.thf.totvs.com.br/conference/conference-api/api/v1/users/',
       method: ThfHttpRequestType.POST,
       body: user
     };
