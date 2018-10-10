@@ -30,6 +30,20 @@ import { TabsPage } from '../pages/tabs/tabs.component';
 import { TrackService } from '../services/track.service';
 import { UserService } from '../services/user.service';
 
+
+import { Configuration, MingleModule } from '@totvs/mobile-mingle';
+
+export function mingleFactory() {
+  let config = new Configuration();
+  config.app_identifier = "5bbe52f925ee8100011ab135";
+  config.environment = "DEV";
+  config.server = "https://dev-mingle.totvs.com.br/";
+  config.modules.crashr = true;
+  config.modules.usage_metrics = true;
+  config.modules.gateway = true;
+  return config;
+}
+
 @NgModule({
   declarations: [
     AboutPage,
@@ -52,7 +66,12 @@ import { UserService } from '../services/user.service';
     ThfModule,
     ThfSyncModule,
     ThfStorageModule.forRoot(),
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    MingleModule.forRoot({
+      provide: Configuration,
+      useFactory: mingleFactory
+    })
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
