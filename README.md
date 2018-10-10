@@ -1,44 +1,85 @@
-# THF CONFERENCE APPLICATION
+# THF Conference Application
 
-Esse repositório tem como objetivo, disponibilizar um exemplo de uma arquitetura que contém duas aplicações, uma web e uma para dispositivos móveis. Aqui você pode encontrar exemplos de utilização do **thf-ui**, **thf-sync** e **thf-storage**, e usá-los como referência para suas aplicações.
 
-No exemplo, a aplicação web funciona como um portal para o administrador da conferência, onde ele pode cadastrar, atualizar ou remover os palestrantes e as palestras. Já no aplicativo móvel, o usuário além de poder acompanhar quem são os palestrantes e a agenda de palestras, ele pode adicionar, alterar ou remover notas sobre uma determinada palestra. Todas essas informações ficam armazenadas no server, comum as duas aplicações.
+THF Conference Application é um aplicativo de demonstração do ThfSync baseado no [Ionic Conference Application](https://github.com/ionic-team/ionic-conference-app). Tendo como objetivo, demonstrar as funcionalidades do ThfSync de forma didática.
 
-> A aplicação que funciona como um `backend` único e centralizado, é gerada automaticamente a partir do [swagger editor](https://editor.swagger.io/), logo, esse código não deve ser considerado como referência de boas práticas de codificação e construção de projeto, ele tem apenas a função de permitir a comunicação entre as aplicações de forma prática.
+> Por esta razão, alguns exemplos aqui demonstrados, como a autenticação do usuário, foram implementados apenas de forma didática, não se preocupando com validações de segurança, por exemplo.
 
-### Pré-requisitos:
+Para saber mais sobre o ThfSync, veja em [Começando com o ThfSync](https://thf.totvs.com.br/guides/sync-get-started).
 
-Para executar as aplicações é necessário realizar as seguintes instalações:
- - [NodeJS](https://nodejs.org/en/);
- - [Angular](https://angular.io/guide/quickstart);
- - [Ionic](https://ionicframework.com/getting-started)
+As funcionalidades do ThfSync foram isoladas em serviços com exceção dos métodos que envolvem *Subscriber*. Os componentes do App concentra-se apenas na busca do serviço e nas manipulações de tela.
 
-#### Executando o server
+A seguir, tem-se uma lista de funcionalidades utilizadas no App e onde podem ser encontradas.
 
-```console
-$ cd thf-conference-api
-$ npm install
-$ npm start
-```
+### ThfSyncService
 
-#### Executando a aplicação web
+- `ThfSyncService.prepare`: src/app/app.component.ts
 
-```console
-$ cd thf-sample-web-conference
-$ npm install
-$ ng serve
-```
+- `ThfSyncService.loadData`: src/app/app.component.ts
 
-#### Executando a aplicação mobile
+- `ThfSyncService.getResponses`: src/app/app.component.ts
 
-```console
-$ cd thf-sample-app-conference
-$ npm install
-$ ionic serve
-```
+- `ThfSyncService.removeItemOfSync`: src/app/app.component.ts
 
-### Links úteis:
+- `ThfSyncService.resumeSync`: src/app/app.component.ts
 
-- Para saber mais sobre o **thf-ui**, acesse [documentação do thf-ui](https://thf.totvs.com.br/home);
-- Para saber mais sobre o **thf-sync**, acesse [começando com o thf-sync](https://thf.totvs.com.br/guides/sync-get-started);
-- Para saber mais sobre o **thf-storage**, acesse [documentação do thf-storage](https://thf.totvs.com.br/documentation/thf-storage)
+- `ThfSyncService.getModel`: src/services/*
+
+- `ThfSyncService.insertHttpCommand`: src/services/user.service.ts
+
+- `ThfSyncService.onSync`:
+  - src/pages/lecture-detail/lecture-detail.component.ts
+  - src/pages/note-list/note-list.component.ts
+  - src/pages/schedule-filter/schedule-filter.component.ts
+  - src/pages/schedule/schedule/component.ts
+  - src/pages/speaker-detail/speaker-detail.component.ts
+  - src/pages/speaker-list/speaker-list.component.ts
+
+- `ThfSyncService.sync`: 
+  - src/services/lecture.service.ts
+  - src/services/note.service.ts
+  - src/services/speaker.service.ts
+  - src/services/track.service.ts
+  - src/services/user.service.ts
+
+### ThfEntity
+
+- `ThfEntity.find`:
+  - src/services/lecture.service.ts
+  - src/services/note.service.ts
+  - src/services/speaker.service.ts
+  - src/services/track.service.ts
+  - src/services/user.service.ts
+
+- `ThfEntity.findById`:
+  - src/services/lecture.service.ts
+  - src/services/user.service.ts
+  - src/pages/speaker-detail/speaker-detail.component.ts
+
+- `ThfEntity.findOne`: src/services/conference.service.ts
+
+- `ThfEntity.save`:
+  - src/services/note.service.ts
+  - src/services/user.service.ts
+
+- `ThfEntity.remove`: src/services/note.service.ts
+
+### ThfQueryBuilder
+
+- `ThfQueryBuilder.exec`: src/services/*
+
+- `ThfQueryBuilder.sort`:
+  - src/services/lecture.service.ts
+  - src/services/speaker.service.ts
+
+### ThfStorageService
+
+- `ThfStorageService.set`: 
+  - src/app/app.component.ts
+  - src/signup/signup.component.ts
+
+- `ThfStorageService.remove`: src/app/app.component.ts
+
+### ThfSyncSchema
+
+Os schemas foram colocados em arquivos separados como constantes no diretório: src/schemas. Todos os schemas foram importados para o arquivo src/schemas/schemas-list.constants.ts e adicionado ao array `schemas`. Sendo esta constante, o parâmetro que representa os schemas no método `ThfSync.prepare`.
