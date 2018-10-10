@@ -12,12 +12,12 @@ export class GenericService<T> {
 
   path: string;
 
-  private host: string = 'http://localhost:';
+  private host: string = 'http://api.thf.totvs.com.br/conference';
   private port: number = 8080;
   private apiName: string = '/conference-api/api/v';
   private version: number = 1;
 
-  private readonly urlApi: string = this.host + this.port + this.apiName + this.version;
+  private readonly urlApi: string = this.host + this.apiName + this.version;
 
   constructor(private http: HttpClient) { }
 
